@@ -11,7 +11,7 @@ const myLoader = ({ src, width, quality }) => {
 const Post = ({ data }) => {
   const router = useRouter();
   const { id, url } = router.query;
-  console.log(id);
+
   const { name, height, weight, sprites } = data;
   return (
     <div className={styles.container}>

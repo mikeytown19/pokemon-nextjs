@@ -3,20 +3,25 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Header from '../../../components/header';
 import styles from '../../../styles/Home.module.css';
+import {fadeInUp, stagger} from '../../../styles/motion'
 
-const myLoader = ({ src, width, quality }) => {
+
+import { motion } from "framer-motion";
+
+const myLoader = ({ src }) => {
   return src;
 };
 
 const Post = ({ data }) => {
-  const router = useRouter();
-  const { id, url } = router.query;
-  console.log(data);
-  const { name, height, weight, sprites, abilities, type } = data;
+
+
+  const { name, height, weight, sprites, abilities, types } = data;
   return (
-    <div className={styles.container}>
+    <motion.div  initial='initial' animate='animate' exit={{ opacity: 0 }} className={styles.container}>
+      <motion.div variants={stagger} className='product-row'>
       <Header />
       <h1 className={styles.title}>{name}</h1>
+      <motion.div variants={fadeInUp}>
       <Image
         loader={myLoader}
         src={sprites.front_default}
@@ -24,15 +29,20 @@ const Post = ({ data }) => {
         width={200}
         height={200}
       />
-      <div className={styles.grid}>
-        <div>
-          <h3>abilities</h3>
+        <h3>Height: {height}</h3>
+        <h3>Weight: {weight}lbs</h3>
+        <h3>Type:
+          {types.map(({type}, index) => ` ${type.name}` )}
+          </h3>
+        <h3>abilities</h3>
           {abilities.map(({ ability }) => (
-            <div>{ability.name}</div>
+            <div key={ability.name}>{ability.name}</div>
           ))}
-        </div>
-      </div>
-    </div>
+
+
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 };
 
